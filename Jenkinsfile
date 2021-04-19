@@ -1,14 +1,19 @@
 pipeline{
     agent any
     
-    environment{
-        PATH = "/opt/maven3/bin:$PATH"
+    environment {
+        PATH = "${PATH}:${tool name: 'Maven', type: 'maven'}/bin"
     }
     stages{
-        stage("Git Checkout"){
+        stage("mvn Build"){
             steps{
-                git credentialsId: 'cbe8554a-fbe7-4196-89bb-85deccbc8cd4', url: 'https://github.com/mvimal28/testproject.git'
+                bat "mvn clean package"
             }
         }
     }
 }
+
+
+
+
+ 
