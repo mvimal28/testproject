@@ -1,16 +1,30 @@
-pipeline{
-    agent any
-    
-    environment {
-        PATH = "${PATH}:${tool name: 'Maven', type: 'maven'}/bin"
+pipeline {
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        echo 'Building..'
+      }
     }
-    stages{
-        stage("mvn Build"){
-            steps{
-                bat "mvn clean package"
-            }
-        }
+    stage('Test') {
+      steps {
+        parallel(
+          "Test": {
+            echo 'Testing..'
+          },
+          "Integration Test": {
+            echo 'Integration Test...'
+            
+          }
+        )
+      }
     }
+    stage('Deploy') {
+      steps {
+        echo 'Deploying....'
+      }
+    }
+  }
 }
 
 
